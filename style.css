@@ -1,0 +1,45 @@
+:root{
+  --sky-top:#2b6cb0; --sky-bot:#9cc7e8; --ink:#fff; --glass:rgba(255,255,255,.16);
+}
+*{box-sizing:border-box;margin:0}
+body{
+  min-height:100vh; font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  color:var(--ink); background:linear-gradient(var(--sky-top),var(--sky-bot)) fixed;
+  transition:background .6s;
+}
+body.clear-night{--sky-top:#0b1b3a;--sky-bot:#3a4f85}
+body.cloudy{--sky-top:#51606f;--sky-bot:#a9b4bf}
+body.rain{--sky-top:#2f3d4d;--sky-bot:#6b7f93}
+body.snow{--sky-top:#6f8196;--sky-bot:#dfe8f0}
+body.storm{--sky-top:#1d2230;--sky-bot:#4b5068}
+.app{max-width:560px;margin:0 auto;padding:20px 16px 40px}
+.search{display:flex;gap:8px}
+.search input{flex:1;padding:12px 14px;border:0;border-radius:12px;font-size:1rem;background:var(--glass);color:var(--ink)}
+.search input::placeholder{color:rgba(255,255,255,.75)}
+button{border:0;border-radius:12px;padding:12px 14px;font-size:1rem;background:var(--glass);color:var(--ink);cursor:pointer}
+button:hover{background:rgba(255,255,255,.28)}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.status{margin:14px 2px;opacity:.9}
+.current{text-align:center;padding:18px 0 8px}
+.current h1{font-size:1.4rem;font-weight:600}
+.temp-row{display:flex;justify-content:center;align-items:center;gap:12px;margin:6px 0}
+.icon{font-size:4rem}
+.temp{font-size:5.5rem;font-weight:300;line-height:1}
+.desc{font-size:1.1rem;opacity:.95}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px;text-align:left}
+.stats div{background:var(--glass);border-radius:14px;padding:12px 14px}
+.stats dt{font-size:.8rem;opacity:.8}
+.stats dd{font-size:1.2rem;margin-top:2px}
+h2{font-size:1rem;font-weight:600;margin:24px 2px 10px}
+.hourly{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.hour{flex:0 0 auto;min-width:64px;text-align:center;background:var(--glass);border-radius:14px;padding:10px 6px}
+.hour span{display:block}
+.hour .e{font-size:1.5rem;margin:4px 0}
+.daily{list-style:none;padding:0;background:var(--glass);border-radius:16px}
+.daily li{display:grid;grid-template-columns:70px 36px 1fr auto;align-items:center;gap:8px;padding:12px 14px}
+.daily li+li{border-top:1px solid rgba(255,255,255,.18)}
+.daily .e{font-size:1.4rem}
+.daily .pop{font-size:.8rem;opacity:.85}
+.units{display:block;margin:26px auto 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){body{transition:none}}

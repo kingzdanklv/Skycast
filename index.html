@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skycast – Weather forecast</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <form id="search" class="search">
+      <input id="q" type="search" placeholder="Search city" aria-label="Search city" required>
+      <button type="submit">Search</button>
+      <button type="button" id="locate" title="Use my location">📍</button>
+    </form>
+    <p id="status" class="status" role="status">Search a city or tap 📍 to begin.</p>
+
+    <section id="current" class="current" hidden>
+      <h1 id="place"></h1>
+      <div class="temp-row">
+        <span id="icon" class="icon"></span>
+        <span id="temp" class="temp"></span>
+      </div>
+      <p id="desc" class="desc"></p>
+      <dl class="stats">
+        <div><dt>Feels like</dt><dd id="feels"></dd></div>
+        <div><dt>Humidity</dt><dd id="hum"></dd></div>
+        <div><dt>Wind</dt><dd id="wind"></dd></div>
+        <div><dt>Rain chance</dt><dd id="pop"></dd></div>
+      </dl>
+    </section>
+
+    <section id="hourly-wrap" hidden>
+      <h2>Next 24 hours</h2>
+      <div id="hourly" class="hourly"></div>
+    </section>
+
+    <section id="daily-wrap" hidden>
+      <h2>7-day forecast</h2>
+      <ul id="daily" class="daily"></ul>
+    </section>
+
+    <button id="units" class="units">Switch to °F</button>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

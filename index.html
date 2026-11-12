@@ -4,23 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Skycast – Weather forecast</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="fx" aria-hidden="true"></canvas>
   <main class="app">
     <form id="search" class="search">
       <input id="q" type="search" placeholder="Search city" aria-label="Search city" required>
       <button type="submit">Search</button>
-      <button type="button" id="locate" title="Use my location">📍</button>
+      <button type="button" id="locate" title="Use my location" aria-label="Use my location">📍</button>
     </form>
     <p id="status" class="status" role="status">Search a city or tap 📍 to begin.</p>
 
     <section id="current" class="current" hidden>
       <h1 id="place"></h1>
-      <div class="temp-row">
-        <span id="icon" class="icon"></span>
-        <span id="temp" class="temp"></span>
-      </div>
+      <div class="temp-row"><span id="icon" class="icon"></span><span id="temp" class="temp"></span></div>
       <p id="desc" class="desc"></p>
       <dl class="stats">
         <div><dt>Feels like</dt><dd id="feels"></dd></div>
@@ -40,8 +39,32 @@
       <ul id="daily" class="daily"></ul>
     </section>
 
+    <section id="radar-wrap" hidden>
+      <h2>Rain radar</h2>
+      <div id="map" class="map" role="img" aria-label="Rain radar map"></div>
+      <div class="radar-bar">
+        <button id="radar-play" type="button" aria-label="Pause radar">⏸</button>
+        <span id="radar-time">Loading radar…</span>
+      </div>
+    </section>
+
+    <section id="air-wrap" hidden>
+      <h2>Air quality</h2>
+      <div class="air">
+        <div class="aqi-head">
+          <span id="aqi-num" class="aqi-num"></span>
+          <div><strong id="aqi-cat"></strong><p id="aqi-tip"></p></div>
+        </div>
+        <div class="aqi-bar"><i id="aqi-pin"></i></div>
+        <dl id="pollutants" class="poll"></dl>
+      </div>
+    </section>
+
     <button id="units" class="units">Switch to °F</button>
+    <p class="credits">Data: Open-Meteo, RainViewer, OpenStreetMap, CARTO</p>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="effects.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

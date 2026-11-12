@@ -101,7 +101,7 @@ const Radar = (() => {
       pastCount = j.radar.past.length;
       frames = [...j.radar.past, ...(j.radar.nowcast || [])];
       layers = frames.map((f) => L.tileLayer(`${j.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`,
-        { opacity: 0, maxNativeZoom: 7, maxZoom: 10, zIndex: 5 }).addTo(map));
+        { pane: "radar", opacity: 0, maxNativeZoom: 7, maxZoom: 10 }).addTo(map));
       loaded = true; show(pastCount - 1); play();
     } catch { $("radar-time").textContent = "Radar unavailable right now."; }
   }
@@ -110,8 +110,10 @@ const Radar = (() => {
     if (!window.L) { $("radar-time").textContent = "Map failed to load."; return; }
     if (!map) {
       map = L.map("map").setView([lat, lon], 6);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        { subdomains: "abcd", maxZoom: 10, attribution: "© OpenStreetMap © CARTO" }).addTo(map);
+      map.createPane("base").style.zIndex = 200;   // base map (gets dark filter in dark mode)
+      map.createPane("radar").style.zIndex = 250;  // rain layer stays above it
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        { pane: "base", maxZoom: 10, attribution: "© OpenStreetMap contributors" }).addTo(map);
       dot = L.circleMarker([lat, lon], { radius: 6, color: "#fff", fillColor: "#2b6cb0", fillOpacity: 1 }).addTo(map);
       $("radar-play").addEventListener("click", () => (timer ? stop() : play()));
       await loadFrames();
@@ -181,3 +183,21 @@ $("locate").addEventListener("click", () => {
 $("units").addEventListener("click", () => { fahrenheit = !fahrenheit; render(); });
 
 try { const s = JSON.parse(localStorage.getItem("skycast:last")); if (s) load(s.lat, s.lon, s.name); } catch {}
+
+/* ---------- Light / dark mode (auto -> light -> dark) ---------- */
+const MODES = ["auto", "light", "dark"], MODE_ICON = { auto: "🌓", light: "☀️", dark: "🌙" };
+const sysDark = matchMedia("(prefers-color-scheme: dark)");
+let mode = "auto";
+try { mode = localStorage.getItem("skycast:mode") || "auto"; } catch {}
+function applyMode() {
+  document.documentElement.classList.toggle("dark", mode === "dark" || (mode === "auto" && sysDark.matches));
+  $("theme").textContent = MODE_ICON[mode];
+  $("theme").title = $("theme").ariaLabel = "Theme: " + mode;
+}
+$("theme").addEventListener("click", () => {
+  mode = MODES[(MODES.indexOf(mode) + 1) % 3];
+  try { localStorage.setItem("skycast:mode", mode); } catch {}
+  applyMode();
+});
+sysDark.addEventListener("change", applyMode);
+applyMode();
